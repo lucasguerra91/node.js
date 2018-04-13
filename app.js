@@ -2,8 +2,30 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+<<<<<<< HEAD
+=======
+//var favicon = require('serve-favicon');
+>>>>>>> 895b119551b9685575b04a7aa8a041ebddafd861
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+
+
+// Seteando el router para la Wiki
+var wiki = require('./wiki');
+
+
+
+// Set the mongoose connection
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://lguerra:ampersand@ds143099.mlab.com:43099/local_library';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+
+
+
 
 // Estos archivos contienen codigo para manejar las rutas
 var indexRouter = require('./routes/index');
@@ -11,6 +33,11 @@ var usersRouter = require('./routes/users');
 
 // Creacion del objeto app usando el modulo express
 var app = express();
+
+
+// A partir de aca puedo usar use()
+app.use('/wiki', wiki);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
