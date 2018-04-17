@@ -25,6 +25,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalog = require('./routes/catalog'); //Import routes for "catalog" area of site
 
+
 // Seteando el router para la Wiki, solo practica
 var wiki = require('./wiki');
 
@@ -46,9 +47,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Se define el uso de los manejadores de rutas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// A partir de aca puedo usar use()
 app.use('/wiki', wiki);
 app.use('/catalog', catalog); // Add catalog routes to middleware chain.
+
 
 
 
