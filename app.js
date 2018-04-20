@@ -8,6 +8,10 @@ var logger = require('morgan');
 
 
 
+// Seteando el router para la Wiki
+var wiki = require('./wiki');
+
+
 
 // Set the mongoose connection
 var mongoose = require('mongoose');
@@ -23,14 +27,15 @@ db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 // Estos archivos contienen codigo para manejar las rutas
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var catalog = require('./routes/catalog'); //Import routes for "catalog" area of site
-
-
-// Seteando el router para la Wiki, solo practica
-var wiki = require('./wiki');
+var catalog = require('./routes/catalog'); // Se agrega la ruta a catalog <--
 
 // Creacion del objeto app usando el modulo express
 var app = express();
+
+
+// A partir de aca puedo usar use()
+app.use('/wiki', wiki);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,27 +52,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Se define el uso de los manejadores de rutas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/wiki', wiki);
-app.use('/catalog', catalog); // Add catalog routes to middleware chain.
+app.use('/catalog', catalog); // Add catalog routes to middleware chain 
 
-
-
-
-
-// Catch 404 and forward to error handler
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    next(createError(404));
 });
 
-// Error handler
+// error handler
 app.use(function(err, req, res, next) {
-    // Set locals, only providing error in development
+    // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // Render the error page
+    // render the error page
     res.status(err.status || 500);
     res.render('error');
 });
