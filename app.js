@@ -15,7 +15,7 @@ var wiki = require('./wiki');
 
 // Set the mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://lguerra:ampersand@ds143099.mlab.com:43099/local_library';
+var mongoDB = '***************';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
